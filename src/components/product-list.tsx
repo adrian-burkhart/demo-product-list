@@ -1,10 +1,10 @@
-import { Flex } from '@chakra-ui/react'
 import React from 'react'
 
 import { FavoritesContext } from '../context/favorites'
 import { useProducts } from '../hooks/use-products'
 import { useFavorites } from '../hooks/use-favorites'
-import { ListItem } from '../ui/list-item'
+import { ProductListItem } from './product-list-item'
+import { ProductListUi } from '../ui/product-list'
 
 export const ProductList = () => {
   const { errored, loading, products } = useProducts()
@@ -20,26 +20,16 @@ export const ProductList = () => {
 
   return (
     (errored && <p>Something went wrong</p>) || (
-      <>
-        <Flex
-          align='center'
-          direction={'row'}
-          gap='1rem'
-          justify={'center'}
-          wrap='wrap'
-        >
-          {products.map(product => (
-            <ListItem
-              isFavorite={favorites.some(
-                favorite => favorite.id === product.id
-              )}
-              key={product.id}
-              loading={loading}
-              {...product}
-            />
-          ))}
-        </Flex>
-      </>
+      <ProductListUi>
+        {products.map(product => (
+          <ProductListItem
+            isFavorite={favorites.some(favorite => favorite.id === product.id)}
+            key={product.id}
+            loading={loading}
+            {...product}
+          />
+        ))}
+      </ProductListUi>
     )
   )
 }

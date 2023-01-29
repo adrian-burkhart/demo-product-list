@@ -11,33 +11,22 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
-import { AddToFavoritesButton } from './add-to-favorites-button'
-
 import { Product } from '../hooks/use-products'
 import Placeholder from '../assets/placeholder150.png'
 
-interface ListItemProps extends Product {
-  isFavorite: boolean
+export interface ProductListItemUiProps extends Omit<Product, 'price' | 'id'> {
+  children: React.ReactNode
+  formattedPrice: string
   loading: boolean
 }
 
-export const ListItem = ({
-  id,
+export const ProductListItemUi = ({
+  children,
+  formattedPrice,
   image,
-  isFavorite = false,
   loading,
-  price,
   title,
-}: ListItemProps) => {
-  // Replace the locale code with undefined to use the browser's locale
-  const formattedPrice = React.useMemo(() => {
-    const formattedPrice = new Intl.NumberFormat('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(price)
-    return formattedPrice
-  }, [price])
-
+}: ProductListItemUiProps) => {
   return (
     <Card h='xs' size='sm' w='sm'>
       <CardHeader>
@@ -69,9 +58,7 @@ export const ListItem = ({
         </Center>
       </CardBody>
 
-      <CardFooter>
-        <AddToFavoritesButton id={{ id }} isFavorite={isFavorite} />
-      </CardFooter>
+      <CardFooter>{children}</CardFooter>
     </Card>
   )
 }
