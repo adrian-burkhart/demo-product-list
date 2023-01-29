@@ -2,7 +2,7 @@ import { Box, Flex, Select } from '@chakra-ui/react'
 
 export interface SelectorUiProps {
   controlledValue: string
-  label: string
+  label?: string
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
   options: { label: string; value: string }[]
 }

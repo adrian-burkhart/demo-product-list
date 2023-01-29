@@ -1,15 +1,9 @@
 import { SelectorUi, SelectorUiProps } from '../ui'
 
-type SortMethod = 'ascending' | 'descending' | 'default'
+export type SortMethod = 'ascending' | 'descending' | 'default'
 
-const options: SelectorUiProps['options'] = [
-  { label: 'Standard', value: 'default' },
-  { label: 'Preis: Aufsteigend', value: 'ascending' },
-  { label: 'Preis: Absteigend', value: 'descending' },
-]
-
-const label = 'Sortieren nach:'
-interface SortSelectorProps extends SelectorUiProps {
+interface SortSelectorProps
+  extends Omit<SelectorUiProps, 'controlledValue' | 'onChange'> {
   selectedSortMethod: SortMethod
   setSelectedSortMethod: (sortMethod: SortMethod) => void
 }
@@ -17,6 +11,7 @@ interface SortSelectorProps extends SelectorUiProps {
 export const SortSelector = ({
   selectedSortMethod,
   setSelectedSortMethod,
+  ...sortSelectorProps
 }: SortSelectorProps) => {
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSortMethod(e.target.value as SortMethod)
@@ -24,10 +19,9 @@ export const SortSelector = ({
 
   return (
     <SelectorUi
+      {...sortSelectorProps}
       controlledValue={selectedSortMethod}
       onChange={onChange}
-      label={label}
-      options={options}
     />
   )
 }

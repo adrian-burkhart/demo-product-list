@@ -5,9 +5,24 @@ import { useFavorites } from '../hooks/use-favorites'
 import { ProductListItem } from './product-list-item'
 import { ProductListUi } from '../ui/product-list'
 import { Product } from '../hooks/use-products'
-import { SortSelector } from './sort-selector'
+import { SortMethod, SortSelector } from './sort-selector'
+import { FilterMethod, FilterSelector } from './filter-selector'
+import { SelectorUiProps } from '../ui'
 
-type SortMethod = 'ascending' | 'descending' | 'default'
+const sortOptions: SelectorUiProps['options'] = [
+  { label: 'Standard', value: 'default' },
+  { label: 'Preis: Aufsteigend', value: 'ascending' },
+  { label: 'Preis: Absteigend', value: 'descending' },
+]
+
+const sortLabel = 'Sortieren nach:'
+
+const filterOptions: SelectorUiProps['options'] = [
+  { label: 'Alle Produkte', value: 'default' },
+  { label: 'Nur Favoriten', value: 'favorites' },
+]
+
+const filterLabel = 'Filtern:'
 
 export const ProductList = ({
   errored = false,
@@ -20,6 +35,9 @@ export const ProductList = ({
 }) => {
   const [selectedSortMethod, setSelectedSortMethod] =
     React.useState<SortMethod>('default')
+  const [selectedFilterMethod, setSelectedFilterMethod] =
+    React.useState<FilterMethod>('default')
+
   const { favorites, setFavorites } = React.useContext(FavoritesContext)
   const { retrieveFavorites } = useFavorites()
 
@@ -40,15 +58,32 @@ export const ProductList = ({
     return sortedProducts
   }, [products, selectedSortMethod])
 
+  const filteredProducts = React.useMemo(() => {
+    if (selectedFilterMethod === 'favorites') {
+      return sortedProducts.filter(product =>
+        favorites.some(favorite => favorite.id === product.id)
+      )
+    }
+    return sortedProducts
+  }, [favorites, selectedFilterMethod, sortedProducts])
+
   return (
     (errored && <p>Something went wrong</p>) || (
       <>
         <SortSelector
+          label={sortLabel}
+          options={sortOptions}
           selectedSortMethod={selectedSortMethod}
           setSelectedSortMethod={setSelectedSortMethod}
         />
+        <FilterSelector
+          label={filterLabel}
+          options={filterOptions}
+          selectedFilterMethod={selectedFilterMethod}
+          setSelectedFilterMethod={setSelectedFilterMethod}
+        />
         <ProductListUi>
-          {sortedProducts.map(product => (
+          {filteredProducts.map(product => (
             <ProductListItem
               isFavorite={favorites.some(
                 favorite => favorite.id === product.id
