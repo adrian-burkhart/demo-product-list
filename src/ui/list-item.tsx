@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -10,27 +9,42 @@ import {
   Image,
   Skeleton,
 } from '@chakra-ui/react'
-import { HeartIcon } from '../svg/heart'
-import { Product } from '../util/fetch-from-api'
+import React from 'react'
 
-interface ListItemProps extends Omit<Product, 'id'> {
+import { AddToFavoritesButton } from './add-to-favorites-button'
+
+import { Product } from '../hooks/use-products'
+import Placeholder from '../assets/placeholder150.png'
+
+interface ListItemProps extends Product {
+  isFavorite: boolean
   loading: boolean
 }
 
-export const ListItem = ({ image, loading, price, title }: ListItemProps) => {
+export const ListItem = ({
+  id,
+  image,
+  isFavorite = false,
+  loading,
+  price,
+  title,
+}: ListItemProps) => {
   // Replace the locale code with undefined to use the browser's locale
-  const formattedPrice = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(price)
+  const formattedPrice = React.useMemo(() => {
+    const formattedPrice = new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(price)
+    return formattedPrice
+  }, [price])
 
   return (
-    <Card w='sm' h='xs' size='sm'>
+    <Card h='xs' size='sm' w='sm'>
       <CardHeader>
         {loading ? (
-          <Skeleton isLoaded={!loading} height='1rem' />
+          <Skeleton height='1rem' isLoaded={!loading} />
         ) : (
-          <Heading size='sm' noOfLines={1}>
+          <Heading noOfLines={1} size='sm'>
             {title}
           </Heading>
         )}
@@ -39,28 +53,24 @@ export const ListItem = ({ image, loading, price, title }: ListItemProps) => {
       <CardBody>
         <Center>
           <Image
-            objectFit='contain'
-            src={image}
             alt={title}
             boxSize='150px'
-            fallbackSrc='https://via.placeholder.com/150'
+            fallbackSrc={Placeholder}
+            objectFit='contain'
+            src={image}
           />
         </Center>
-        <Center>
+        <Center pt='4'>
           {loading ? (
-            <Skeleton isLoaded={!loading} height='1rem' width={'4rem'} />
+            <Skeleton height='1rem' isLoaded={!loading} width={'4rem'} />
           ) : (
-            <Box pt='4' fontWeight={'semibold'}>
-              {formattedPrice}
-            </Box>
+            <Box fontWeight={'semibold'}>{formattedPrice}</Box>
           )}
         </Center>
       </CardBody>
 
       <CardFooter>
-        <Button flex='1' variant='ghost' leftIcon={<HeartIcon color='black' />}>
-          Like
-        </Button>
+        <AddToFavoritesButton id={{ id }} isFavorite={isFavorite} />
       </CardFooter>
     </Card>
   )
