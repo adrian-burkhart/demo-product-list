@@ -11,6 +11,7 @@ interface AddToFavoritesButtonProps
 export const AddToFavoritesButton = ({
   id,
   isFavorite = false,
+  title,
 }: AddToFavoritesButtonProps) => {
   const { addToFavorites, removeFromFavorites } = useFavorites()
   const { setFavorites } = React.useContext(FavoritesContext)
@@ -29,5 +30,11 @@ export const AddToFavoritesButton = ({
     }
   }
 
-  return <AddToFavoritesButtonUi isFavorite={isFavorite} onClick={onClick} />
+  return (
+    <AddToFavoritesButtonUi
+      isFavorite={isFavorite}
+      onClick={onClick}
+      title={title}
+    />
+  )
 }

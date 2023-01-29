@@ -28,7 +28,7 @@ export const ProductListItemUi = ({
   title,
 }: ProductListItemUiProps) => {
   return (
-    <Card h='xs' size='sm' w='sm'>
+    <Card role='gridcell' h='xs' size='sm' w='sm'>
       <CardHeader>
         {loading ? (
           <Skeleton height='1rem' isLoaded={!loading} />

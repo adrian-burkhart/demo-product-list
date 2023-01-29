@@ -14,6 +14,7 @@ export const ProductListItem = ({
   id,
   isFavorite,
   price,
+  title,
   ...listItemProps
 }: ProductListItemProps) => {
   // Replace the locale code with undefined to use the browser's locale
@@ -26,8 +27,12 @@ export const ProductListItem = ({
   }, [price])
 
   return (
-    <ProductListItemUi {...listItemProps} formattedPrice={formattedPrice}>
-      <AddToFavoritesButton id={id} isFavorite={isFavorite} />
+    <ProductListItemUi
+      title={title}
+      {...listItemProps}
+      formattedPrice={formattedPrice}
+    >
+      <AddToFavoritesButton id={id} isFavorite={isFavorite} title={title} />
     </ProductListItemUi>
   )
 }

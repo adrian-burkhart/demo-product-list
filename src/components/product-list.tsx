@@ -1,14 +1,20 @@
 import React from 'react'
 
 import { FavoritesContext } from '../context/favorites'
-import { useProducts } from '../hooks/use-products'
 import { useFavorites } from '../hooks/use-favorites'
 import { ProductListItem } from './product-list-item'
 import { ProductListUi } from '../ui/product-list'
+import { Product } from '../hooks/use-products'
 
-export const ProductList = () => {
-  const { errored, loading, products } = useProducts()
-
+export const ProductList = ({
+  errored = false,
+  loading = false,
+  products,
+}: {
+  errored?: boolean
+  loading?: boolean
+  products: Product[]
+}) => {
   const { favorites, setFavorites } = React.useContext(FavoritesContext)
   const { retrieveFavorites } = useFavorites()
 
