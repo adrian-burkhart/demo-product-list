@@ -25,9 +25,13 @@ export const SelectorUi = ({
       <Box w='100%'>
         <label htmlFor='sort'>{label}</label>
       </Box>
-      <Select value={controlledValue} onChange={onChange}>
+      <Select value={controlledValue} onChange={onChange} aria-label={label}>
         {options.map(option => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            aria-label={option.label}
+          >
             {option.label}
           </option>
         ))}

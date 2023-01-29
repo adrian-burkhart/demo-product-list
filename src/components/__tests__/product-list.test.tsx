@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
-import { ProductList } from './product-list'
-import { useFavorites } from '../hooks/use-favorites'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { ProductList } from '../product-list'
+import { useFavorites } from '../../hooks/use-favorites'
 
 const MOCK_PRODUCTS = [
   {
@@ -20,6 +20,12 @@ const MOCK_PRODUCTS = [
     id: 3,
     title: 'Product 3',
     price: 300,
+    image: 'https://via.placeholder.com/150',
+  },
+  {
+    id: 4,
+    title: 'Product 4',
+    price: 400,
     image: 'https://via.placeholder.com/150',
   },
 ]
