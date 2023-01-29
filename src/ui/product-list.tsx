@@ -8,17 +8,14 @@ export interface ProductListUiProps {
 
 export const ProductListUi = ({ children }: ProductListUiProps) => {
   return (
-    <>
-      <SortSelector />
-      <Flex
-        align='center'
-        direction={'row'}
-        gap='1rem'
-        justify={'center'}
-        wrap='wrap'
-      >
-        {children}
-      </Flex>
-    </>
+    <Flex
+      align='center'
+      direction={'row'}
+      gap='1rem'
+      justify={'center'}
+      wrap='wrap'
+    >
+      {children}
+    </Flex>
   )
 }

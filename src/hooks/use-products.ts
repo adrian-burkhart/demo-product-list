@@ -31,6 +31,7 @@ export const useProducts = () => {
 
   React.useEffect(() => {
     setLoading(true)
+    console.log('fetch')
     fetch(API_URL)
       .then(handleErrors)
       .then(res => {
