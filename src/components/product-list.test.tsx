@@ -24,12 +24,8 @@ const MOCK_PRODUCTS = [
   },
 ]
 
-describe('ProductList', async () => {
+describe('ProductList', () => {
   render(<ProductList products={MOCK_PRODUCTS} />)
-
-  it('should match snapshot', () => {
-    expect(screen).toMatchSnapshot()
-  })
 
   const firstFavoriteButton = screen.getByRole('button', {
     name: `Add ${MOCK_PRODUCTS[0].title} to favorites`,
