@@ -1,6 +1,5 @@
-import { Flex, Select } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
-import { SortSelector } from '../components/sort-selector'
 
 export interface ProductListUiProps {
   children: React.ReactNode
