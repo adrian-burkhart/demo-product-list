@@ -1,13 +1,16 @@
 import React from 'react'
-import { ProductId } from './use-favorites'
+import { z } from 'zod'
 
 const API_URL = 'https://fakestoreapi.com/products'
 
-export interface Product extends ProductId {
-  image: string
-  price: number
-  title: string
-}
+const ProductSchema = z.object({
+  id: z.number(),
+  image: z.string(),
+  price: z.number(),
+  title: z.string(),
+})
+
+export type Product = z.infer<typeof ProductSchema>
 
 /**
  * A custom hook that fetches products from the fake store API.

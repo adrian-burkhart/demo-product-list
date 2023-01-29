@@ -1,4 +1,10 @@
-export type ProductId = { id: number }
+import { z } from 'zod'
+
+const ProductIdSchema = z.object({
+  id: z.number(),
+})
+
+export type ProductId = z.infer<typeof ProductIdSchema>
 
 /**
  * A custom hook that manages the favorites in local storage.
