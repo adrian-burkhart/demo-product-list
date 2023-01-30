@@ -8,6 +8,7 @@ export interface ProductListUiProps {
 export const ProductListUi = ({ children }: ProductListUiProps) => {
   return (
     <Flex
+      as='ul'
       align='center'
       direction={'row'}
       gap='1rem'

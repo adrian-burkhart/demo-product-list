@@ -23,9 +23,14 @@ export const SelectorUi = ({
       align='center'
     >
       <Box w='100%'>
-        <label htmlFor='sort'>{label}</label>
+        <label htmlFor={label}>{label}</label>
       </Box>
-      <Select value={controlledValue} onChange={onChange} aria-label={label}>
+      <Select
+        aria-label={label}
+        id={label}
+        onChange={onChange}
+        value={controlledValue}
+      >
         {options.map(option => (
           <option
             key={option.value}

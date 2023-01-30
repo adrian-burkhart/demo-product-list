@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react'
 import './App.css'
 import { ProductList } from './components/product-list'
 import { FavoritesContextProvider } from './context/favorites'
@@ -7,11 +8,14 @@ function App() {
   const { errored, loading, products } = useProducts()
 
   return (
-    <div className='App'>
+    <main className='App'>
       <FavoritesContextProvider>
+        <Heading as='h1' mb={4}>
+          Demo Product List
+        </Heading>
         <ProductList errored={errored} loading={loading} products={products} />
       </FavoritesContextProvider>
-    </div>
+    </main>
   )
 }
 
