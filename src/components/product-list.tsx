@@ -8,6 +8,7 @@ import { Product } from '../hooks/use-products'
 import { SortMethod, SortSelector } from './sort-selector'
 import { FilterMethod, FilterSelector } from './filter-selector'
 import { SelectorUiProps } from '../ui'
+import { Heading } from '@chakra-ui/react'
 
 const sortOptions: SelectorUiProps['options'] = [
   { label: 'Standard', value: 'default' },
@@ -83,16 +84,20 @@ export const ProductList = ({
           setSelectedFilterMethod={setSelectedFilterMethod}
         />
         <ProductListUi>
-          {filteredProducts.map(product => (
-            <ProductListItem
-              isFavorite={favorites.some(
-                favorite => favorite.id === product.id
-              )}
-              key={product.id}
-              loading={loading}
-              {...product}
-            />
-          ))}
+          {filteredProducts.length === 0 ? (
+            <Heading my={40}>Keine Produkte gefunden</Heading>
+          ) : (
+            filteredProducts.map(product => (
+              <ProductListItem
+                isFavorite={favorites.some(
+                  favorite => favorite.id === product.id
+                )}
+                key={product.id}
+                loading={loading}
+                {...product}
+              />
+            ))
+          )}
         </ProductListUi>
       </>
     )
