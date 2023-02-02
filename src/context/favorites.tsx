@@ -18,7 +18,7 @@ interface FavoritesContextProviderProps {
 export const FavoritesContextProvider = ({
   children,
 }: FavoritesContextProviderProps) => {
-  const [favorites, setFavorites] = React.useState<ProductId[] | []>([])
+  const [favorites, setFavorites] = React.useState<ProductId[]>([])
 
   return (
     <FavoritesContext.Provider value={{ favorites, setFavorites }}>
