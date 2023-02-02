@@ -31,14 +31,14 @@ export const useProducts = () => {
 
   React.useEffect(() => {
     setLoading(true)
-    console.log('fetch')
     fetch(API_URL)
       .then(handleErrors)
       .then(res => {
         return res.json()
       })
       .then(data => {
-        setProducts(data)
+        const parsedData = z.array(ProductSchema).parse(data)
+        setProducts(parsedData)
         setLoading(false)
       })
       .catch(e => {
