@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/37</span>
+                <span class='fraction'>25/27</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>37/37</span>
+                <span class='fraction'>25/27</span>
             </div>
         
             
@@ -90,17 +90,7 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -116,6 +106,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -125,24 +117,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Box, Flex, Select } from '@chakra-ui/react'
-import React from 'react'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { SelectorUi, SelectorUiProps } from '../ui'
 &nbsp;
-type SortMethod = 'ascending' | 'descending' | 'default'
+export type SortMethod = 'ascending' | 'descending' | 'default'
 &nbsp;
-interface SortSelectorProps {
+interface SortSelectorProps
+  extends Omit&lt;SelectorUiProps, 'controlledValue' | 'onChange'&gt; {
   selectedSortMethod: SortMethod
   setSelectedSortMethod: (sortMethod: SortMethod) =&gt; void
 }
@@ -150,28 +130,18 @@ interface SortSelectorProps {
 export const SortSelector = ({
   selectedSortMethod,
   setSelectedSortMethod,
+  ...sortSelectorProps
 }: SortSelectorProps) =&gt; {
+  const onChange = <span class="fstat-no" title="function not covered" >(e: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSelectedSortMethod(e.target.value as SortMethod)</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
   return (
-    &lt;Flex
-      maxW='sm'
-      mb={4}
-      mx='auto'
-      direction={'row'}
-      justify='space-around'
-      align='center'
-    &gt;
-      &lt;Box w='100%'&gt;
-        &lt;label htmlFor='sort'&gt;Sortieren nach:&lt;/label&gt;
-      &lt;/Box&gt;
-      &lt;Select
-        value={selectedSortMethod}
-        onChange={<span class="fstat-no" title="function not covered" >e =&gt; setSelectedSortMethod(e.target.value as SortMethod)}</span>
-      &gt;
-        &lt;option value='default'&gt;Standard&lt;/option&gt;
-        &lt;option value='ascending'&gt;Preis: Aufsteigend&lt;/option&gt;
-        &lt;option value='descending'&gt;Preis: Absteigend&lt;/option&gt;
-      &lt;/Select&gt;
-    &lt;/Flex&gt;
+    &lt;SelectorUi
+      {...sortSelectorProps}
+      controlledValue={selectedSortMethod}
+      onChange={onChange}
+    /&gt;
   )
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -181,7 +151,7 @@ export const SortSelector = ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-29T21:11:37.775Z
+                at 2023-02-02T14:53:35.711Z
             </div>
         <script src="../prettify.js"></script>
         <script>
