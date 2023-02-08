@@ -8,11 +8,13 @@ import { AddToFavoritesButton } from './add-to-favorites-button'
 interface ProductListItemProps extends Product {
   isFavorite: boolean
   loading: boolean
+  handleFavoriteClick: (id: number) => void
 }
 
 export const ProductListItem = ({
   id,
   isFavorite,
+  handleFavoriteClick,
   price,
   title,
   ...listItemProps
@@ -28,11 +30,16 @@ export const ProductListItem = ({
 
   return (
     <ProductListItemUi
-      title={title}
-      {...listItemProps}
       formattedPrice={formattedPrice}
+      {...listItemProps}
+      title={title}
     >
-      <AddToFavoritesButton id={id} isFavorite={isFavorite} title={title} />
+      <AddToFavoritesButton
+        handleFavoriteClick={handleFavoriteClick}
+        id={id}
+        isFavorite={isFavorite}
+        title={title}
+      />
     </ProductListItemUi>
   )
 }

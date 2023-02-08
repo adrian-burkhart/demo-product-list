@@ -8,6 +8,11 @@ interface FilterSelectorProps
   setSelectedFilterMethod: (filterMethod: FilterMethod) => void
 }
 
+interface FilterSelectorProps
+  extends Omit<SelectorUiProps, 'controlledValue' | 'onChange'> {
+  setSelectedFilterMethod: (filterMethod: FilterMethod) => void
+}
+
 export const FilterSelector = ({
   selectedFilterMethod,
   setSelectedFilterMethod,

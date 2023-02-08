@@ -1,33 +1,19 @@
-import React from 'react'
-import { useFavorites } from '../hooks/use-favorites'
-import { FavoritesContext } from '../context/favorites'
 import { AddToFavoritesButtonUi, AddToFavoritesButtonUiProps } from '../ui'
 
 interface AddToFavoritesButtonProps
   extends Omit<AddToFavoritesButtonUiProps, 'onClick'> {
+  handleFavoriteClick: (id: number) => void
   id: number
 }
 
 export const AddToFavoritesButton = ({
+  handleFavoriteClick,
   id,
   isFavorite = false,
   title,
 }: AddToFavoritesButtonProps) => {
-  const { addToFavorites, removeFromFavorites } = useFavorites()
-  const { setFavorites } = React.useContext(FavoritesContext)
-
   const onClick = () => {
-    if (isFavorite) {
-      removeFromFavorites({
-        product: { id },
-        setFavorites,
-      })
-    } else {
-      addToFavorites({
-        product: { id },
-        setFavorites,
-      })
-    }
+    handleFavoriteClick(id)
   }
 
   return (

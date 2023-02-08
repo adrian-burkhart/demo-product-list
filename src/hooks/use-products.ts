@@ -12,14 +12,16 @@ const ProductSchema = z.object({
 
 export type Product = z.infer<typeof ProductSchema>
 
+export type ProductsState = 'loading' | 'errored' | 'success' | undefined
 /**
  * A custom hook that fetches products from the fake store API.
  * @see https://fakestoreapi.com/
  * @return {Object} An object containing the products as well as the errored and loading states.
  */
 export const useProducts = () => {
-  const [loading, setLoading] = React.useState(false)
-  const [errored, setErrored] = React.useState(false)
+  const [productsState, setProductsState] =
+    React.useState<ProductsState>(undefined)
+
   const [products, setProducts] = React.useState<Product[]>([])
 
   const handleErrors = (response: Response) => {
@@ -30,7 +32,7 @@ export const useProducts = () => {
   }
 
   React.useEffect(() => {
-    setLoading(true)
+    setProductsState('loading')
     fetch(API_URL)
       .then(handleErrors)
       .then(res => {
@@ -39,13 +41,12 @@ export const useProducts = () => {
       .then(data => {
         const parsedData = z.array(ProductSchema).parse(data)
         setProducts(parsedData)
-        setLoading(false)
+        setProductsState('success')
       })
       .catch(e => {
-        setLoading(false)
-        setErrored(true)
+        setProductsState('errored')
       })
   }, [])
 
-  return { errored, loading, products }
+  return { productsState, products }
 }
