@@ -31,16 +31,14 @@ const MOCK_PRODUCTS = [
 ]
 
 describe('ProductList', () => {
-  render(<ProductList products={MOCK_PRODUCTS} />)
-
-  const firstFavoriteButton = screen.getByRole('button', {
-    name: `Add ${MOCK_PRODUCTS[0].title} to favorites`,
-  })
-  const secondFavoriteButton = screen.getByRole('button', {
-    name: `Add ${MOCK_PRODUCTS[1].title} to favorites`,
-  })
-
   it('should add a product to favorites', () => {
+    render(<ProductList productsState='success' products={MOCK_PRODUCTS} />)
+    let firstFavoriteButton = screen.getByRole('button', {
+      name: `Add ${MOCK_PRODUCTS[0].title} to favorites`,
+    })
+    const secondFavoriteButton = screen.getByRole('button', {
+      name: `Add ${MOCK_PRODUCTS[1].title} to favorites`,
+    })
     fireEvent(
       firstFavoriteButton,
       new MouseEvent('click', {
@@ -58,20 +56,27 @@ describe('ProductList', () => {
     )
 
     const { retrieveFavorites } = useFavorites()
-    const favorites = retrieveFavorites()
-    expect(favorites).toEqual([{ id: 1 }, { id: 2 }])
+    let favorites = retrieveFavorites()
 
-    it('should remove a product from favorites', () => {
-      fireEvent(
-        firstFavoriteButton,
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true,
-        })
-      )
-      const { retrieveFavorites } = useFavorites()
-      const favorites = retrieveFavorites()
-      expect(favorites).toEqual([{ id: 2 }])
-    })
+    expect(favorites).toEqual([{ id: 1 }, { id: 2 }])
+    expect(localStorage.setItem).toHaveBeenLastCalledWith(
+      'favorites',
+      '[{"id":1},{"id":2}]'
+    )
+
+    fireEvent(
+      firstFavoriteButton,
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      })
+    )
+    favorites = retrieveFavorites()
+
+    expect(favorites).toEqual([{ id: 2 }])
+    expect(localStorage.setItem).toHaveBeenLastCalledWith(
+      'favorites',
+      '[{"id":2}]'
+    )
   })
 })

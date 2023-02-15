@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { FavoritesContext } from '../context/favorites'
 import { useFavorites } from '../hooks/use-favorites'
 import { ProductListItem } from './product-list-item'
 import { ProductListUi } from '../ui/product-list'
-import { Product } from '../hooks/use-products'
+import { Product, ProductsState } from '../hooks/use-products'
 import { SortMethod, SortSelector } from './sort-selector'
 import { FilterMethod, FilterSelector } from './filter-selector'
 import { SelectorUiProps } from '../ui'
+import { Heading } from '@chakra-ui/react'
 
 const sortOptions: SelectorUiProps['options'] = [
   { label: 'Standard', value: 'default' },
@@ -25,27 +25,37 @@ const filterOptions: SelectorUiProps['options'] = [
 const filterLabel = 'Filtern:'
 
 export const ProductList = ({
-  errored = false,
-  loading = false,
   products,
+  productsState,
 }: {
-  errored?: boolean
-  loading?: boolean
   products: Product[]
+  productsState: ProductsState
 }) => {
   const [selectedSortMethod, setSelectedSortMethod] =
     React.useState<SortMethod>('default')
   const [selectedFilterMethod, setSelectedFilterMethod] =
     React.useState<FilterMethod>('default')
 
-  const { favorites, setFavorites } = React.useContext(FavoritesContext)
-  const { retrieveFavorites } = useFavorites()
+  const { addToFavorites, removeFromFavorites, retrieveFavorites } =
+    useFavorites()
 
-  // On mount, retrieve the favorites from localStorage
-  React.useEffect(() => {
-    const favorites = retrieveFavorites()
-    setFavorites(favorites)
-  }, [])
+  const favoritesFromLocalStorage = retrieveFavorites()
+  const [favorites, setFavorites] = React.useState(favoritesFromLocalStorage)
+
+  const handleFavoriteClick = (id: number) => {
+    const isFavorite = favorites.some(favorite => favorite.id === id)
+    if (isFavorite) {
+      removeFromFavorites({
+        product: { id },
+        setFavorites,
+      })
+    } else {
+      addToFavorites({
+        product: { id },
+        setFavorites,
+      })
+    }
+  }
 
   const sortedProducts = React.useMemo(() => {
     let sortedProducts = [...products]
@@ -68,7 +78,7 @@ export const ProductList = ({
   }, [favorites, selectedFilterMethod, sortedProducts])
 
   return (
-    (errored && <p>Something went wrong</p>) || (
+    (productsState === 'errored' && <p>Something went wrong</p>) || (
       <>
         <SortSelector
           label={sortLabel}
@@ -83,16 +93,21 @@ export const ProductList = ({
           setSelectedFilterMethod={setSelectedFilterMethod}
         />
         <ProductListUi>
-          {filteredProducts.map(product => (
-            <ProductListItem
-              isFavorite={favorites.some(
-                favorite => favorite.id === product.id
-              )}
-              key={product.id}
-              loading={loading}
-              {...product}
-            />
-          ))}
+          {filteredProducts.length === 0 ? (
+            <Heading my={40}>Keine Produkte gefunden</Heading>
+          ) : (
+            filteredProducts.map(product => (
+              <ProductListItem
+                isFavorite={favorites.some(
+                  favorite => favorite.id === product.id
+                )}
+                handleFavoriteClick={handleFavoriteClick}
+                key={product.id}
+                loading={productsState === 'loading'}
+                {...product}
+              />
+            ))
+          )}
         </ProductListUi>
       </>
     )

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for context/favorites.tsx</title>
+    <title>Code coverage report for components/filter-selector.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">context</a> favorites.tsx</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> filter-selector.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">92.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/28</span>
+                <span class='fraction'>25/27</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">92.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/28</span>
+                <span class='fraction'>25/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,8 +90,7 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -102,51 +101,49 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react'
-import { ProductId } from '../hooks/use-favorites'
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { SelectorUi, SelectorUiProps } from '../ui'
 &nbsp;
-interface FavoritesContextState {
-  favorites: ProductId[]
-  setFavorites: React.Dispatch&lt;React.SetStateAction&lt;ProductId[]&gt;&gt;
+export type FilterMethod = 'favorites' | 'default'
+&nbsp;
+interface FilterSelectorProps
+  extends Omit&lt;SelectorUiProps, 'controlledValue' | 'onChange'&gt; {
+  selectedFilterMethod: FilterMethod
+  setSelectedFilterMethod: (filterMethod: FilterMethod) =&gt; void
 }
 &nbsp;
-export const FavoritesContext = React.createContext&lt;FavoritesContextState&gt;({
-  favorites: [],
-  setFavorites: () =&gt; {},
-})
+export const FilterSelector = ({
+  selectedFilterMethod,
+  setSelectedFilterMethod,
+  ...filterSelectorProps
+}: FilterSelectorProps) =&gt; {
+  const onChange = <span class="fstat-no" title="function not covered" >(e: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSelectedFilterMethod(e.target.value as FilterMethod)</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-interface FavoritesContextProviderProps {
-  children: React.ReactNode
+  return (
+    &lt;SelectorUi
+      {...filterSelectorProps}
+      controlledValue={selectedFilterMethod}
+      onChange={onChange}
+    /&gt;
+  )
 }
-&nbsp;
-export const FavoritesContextProvider = <span class="fstat-no" title="function not covered" >({</span>
-<span class="cstat-no" title="statement not covered" >  children,</span>
-<span class="cstat-no" title="statement not covered" >}: FavoritesContextProviderProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [favorites, setFavorites] = React.useState&lt;ProductId[] | []&gt;([])</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;FavoritesContext.Provider value={{ favorites, setFavorites }}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/FavoritesContext.Provider&gt;</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
-<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -154,7 +151,7 @@ export const FavoritesContextProvider = <span class="fstat-no" title="function n
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-29T21:11:37.775Z
+                at 2023-02-07T13:21:37.700Z
             </div>
         <script src="../prettify.js"></script>
         <script>

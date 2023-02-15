@@ -9,5 +9,7 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude, 'packages/template/*'],
     environment: 'jsdom',
+    globals: true,
+    setupFiles: ['vitest-localstorage-mock'],
   },
 })
